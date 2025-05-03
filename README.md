@@ -1,3 +1,3 @@
 # **PersonalFinanceAPI**
 
-## **API RESTful para controle de despesas pessoais**
+## **API RESTful para controle de extra classes de professores**
