@@ -18,6 +18,9 @@ class Review
     #[ORM\OneToOne(targetEntity: Teacher::class, inversedBy: 'reviews')]
     private Teacher $teacher;
 
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private string $extraClassActionDescription = '';
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTime $date = null;
 
@@ -50,6 +53,17 @@ class Review
     public function setTeacher(Teacher $teacher): Review
     {
         $this->teacher = $teacher;
+        return $this;
+    }
+
+    public function getExtraClassDescription(): string
+    {
+        return $this->extraClassDescription;
+    }
+
+    public function setExtraClassDescription(string $extraClassDescription): Review
+    {
+        $this->extraClassDescription = $extraClassDescription;
         return $this;
     }
 
