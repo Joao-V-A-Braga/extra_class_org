@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Repository;
+
+use App\Filter\AbstractFilter;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+
+class AbstractRepository extends ServiceEntityRepository
+{
+    /**
+     * Main class referring to the repository
+     * @var string
+     */
+    protected static string $class = self::class;
+
+    public function __construct(
+        ManagerRegistry $registry
+    ) {
+        parent::__construct($registry, static::$class);
+    }
+
+    public function findByFilter(
+        AbstractFilter $filter,
+    ): Query|QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('entity');
+
+        $qb
+            ->andWhere('entity.status = :status')
+            ->setParameter('status', $filter->getStatus())
+        ;
+
+        return $qb;
+    }
+}
