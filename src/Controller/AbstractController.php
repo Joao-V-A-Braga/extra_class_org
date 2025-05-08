@@ -54,7 +54,6 @@ class AbstractController extends SymfonyAbstractController
         array|null                 $serializerGroups = null,
         bool                       $capitalize = false
     ): array {
-        $serializerGroups ??= [];
         $data = [];
         foreach ($items as $item)
             $data[] = $item->toArray($serializerGroups);
@@ -64,7 +63,7 @@ class AbstractController extends SymfonyAbstractController
     public function jsonResponseByPaginator(
         SlidingPagination|PaginatorInterface|Pagination $pagination,
         int $statusCode = Response::HTTP_OK,
-        array $serializerGroups = [],
+        array $serializerGroups = null,
         bool $capitalize = false
     ): JsonResponse
     {

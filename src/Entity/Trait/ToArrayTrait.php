@@ -33,8 +33,9 @@ trait ToArrayTrait
             ->build();
     }
 
-    public function toArray(array $serializerGroups = [SerializerGroups::DEFAULT, SerializerGroups::ID]): array
+    public function toArray(array|null $serializerGroups = [SerializerGroups::DEFAULT, SerializerGroups::ID]): array
     {
+        $serializerGroups ??= [SerializerGroups::DEFAULT, SerializerGroups::ID];
         $context = SerializationContext::create()
             ->enableMaxDepthChecks()
             ->setGroups($serializerGroups)
