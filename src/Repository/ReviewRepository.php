@@ -9,10 +9,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Review>
  */
-class ReviewRepository extends ServiceEntityRepository
+class ReviewRepository extends AbstractRepository
 {
+    protected static mixed $class = Review::class;
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Review::class);
+        parent::__construct($registry);
     }
 }

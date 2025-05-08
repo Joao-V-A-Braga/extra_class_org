@@ -13,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MetricRepository extends AbstractRepository
 {
-    protected static string $class = Metric::class;
+    protected static mixed $class = Metric::class;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry);

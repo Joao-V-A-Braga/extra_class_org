@@ -9,10 +9,11 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<SchoolSubject>
  */
-class SchoolSubjectRepository extends ServiceEntityRepository
+class SchoolSubjectRepository extends AbstractRepository
 {
+    protected static mixed $class = SchoolSubject::class;
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SchoolSubject::class);
+        parent::__construct($registry);
     }
 }

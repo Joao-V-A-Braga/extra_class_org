@@ -14,7 +14,7 @@ class AbstractRepository extends ServiceEntityRepository
      * Main class referring to the repository
      * @var string
      */
-    protected static string $class = self::class;
+    protected static mixed $class = self::class;
 
     public function __construct(
         ManagerRegistry $registry
