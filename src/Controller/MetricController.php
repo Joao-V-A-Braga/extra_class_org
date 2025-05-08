@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Constants\SerializerGroups;
+use App\Entity\Metric;
 use App\Filter\MetricFilter;
-use App\Form\Type\MetricFilterType;
+use App\Form\Type\Filter\MetricFilterType;
+use App\Form\Type\MetricType;
 use App\Service\MetricService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,5 +43,69 @@ class MetricController extends AbstractController
         }
 
         return $this->jsonResponseByPaginator($pagination);
+    }
+
+    #[Route('/create', name: 'create', methods: ['POST'])]
+    public function create(Request $request, MetricService $service): JsonResponse
+    {
+        $metric = new Metric();
+
+        $form = $this->createForm(MetricType::class, $metric);
+        $form->submit(json_decode($request->getContent(), true));
+
+        try {
+            if ($form->isValid()) {
+                $service->save($metric);
+            } else {
+                return self::getFormErrorResponse($form);
+            }
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                ['message' => $e->getMessage()],
+                status: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
+        return new JsonResponse(
+            data: $metric->toArray(),
+            status: Response::HTTP_CREATED
+        );
+    }
+
+    #[Route('/update/{id}', name: 'update', methods: ['PUT'])]
+    public function edit(Metric $metric, Request $request, MetricService $service): JsonResponse
+    {
+        $form = $this->createForm(MetricType::class, $metric, ['method' => 'PUT']);
+        $form->submit([
+            ...$metric->toArray([SerializerGroups::DEFAULT]),
+            ...json_decode($request->getContent(), true)
+        ]);
+
+        try {
+            if ($form->isValid()) {
+                $service->save($metric);
+            } else {
+                return self::getFormErrorResponse($form);
+            }
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                ['message' => $e->getMessage()],
+                status: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
+        return new JsonResponse(
+            data: $metric->toArray(),
+            status: Response::HTTP_CREATED
+        );
+    }
+
+    #[Route('/view/{id}', name: 'view', methods: ['GET'])]
+    public function view(Metric $metric): JsonResponse
+    {
+        return new JsonResponse(
+            data: $metric->toArray(),
+            status: Response::HTTP_CREATED
+        );
     }
 }

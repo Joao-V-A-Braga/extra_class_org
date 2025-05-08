@@ -20,31 +20,32 @@ class Metric
 
     #[ORM\Column(type: Types::INTEGER)]
     #[Serializer\Groups([SerializerGroups::DEFAULT])]
-    private int $classes = 0; //Per month - Real classes
+    private ?int $classes = 0; //Per month - Real classes
 
     #[ORM\Column(type: Types::FLOAT)]
     #[Serializer\Groups([SerializerGroups::DEFAULT])]
-    private int $monthHours = 0;
+    private ?int $monthHours = 0;
 
-    public function getClasses(): int
+    public function getClasses(): ?int
     {
         return $this->classes;
     }
 
-    public function setClasses(int $classes): Metric
+    public function setClasses(?int $classes): Metric
     {
         $this->classes = $classes;
         return $this;
     }
 
-    public function getMonthHours(): int
+    public function getMonthHours(): ?int
     {
         return $this->monthHours;
     }
 
-    public function setMonthHours(int $monthHours): Metric
+    public function setMonthHours(?int $monthHours): Metric
     {
         $this->monthHours = $monthHours;
         return $this;
     }
+
 }

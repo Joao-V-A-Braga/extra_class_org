@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\Type;
+namespace App\Form\Type\Filter;
 
 use App\Constants\PaginationLimitsTypes;
 use App\Filter\AbstractFilter;

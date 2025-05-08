@@ -1,9 +1,7 @@
-controllers:
-    resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+api.v1:
+    resource: '../src/Controller/'
+    prefix: '/api/v1'
     type: attribute
-    prefix: /api/v1
 
 api_login_check:
     path: /api/login_check
