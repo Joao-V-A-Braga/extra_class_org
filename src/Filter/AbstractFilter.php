@@ -9,6 +9,9 @@ class AbstractFilter
     protected int|null $perPage = null;
     protected int|null $page = null;
 
+    // Aux
+    protected bool|null $queryReturn = true;
+
     public function getStatus(): string
     {
         return $this->status;
@@ -39,6 +42,17 @@ class AbstractFilter
     public function setPage(?int $page): AbstractFilter
     {
         $this->page = $page;
+        return $this;
+    }
+
+    public function isQueryReturn(): bool
+    {
+        return $this->queryReturn;
+    }
+
+    public function setQueryReturn(bool $queryReturn): AbstractFilter
+    {
+        $this->queryReturn = $queryReturn;
         return $this;
     }
 }

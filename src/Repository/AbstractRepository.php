@@ -23,9 +23,10 @@ class AbstractRepository extends ServiceEntityRepository
     }
 
     public function findByFilter(
-        AbstractFilter $filter,
+        AbstractFilter $filter
     ): Query|QueryBuilder
     {
+        $queryReturn = $filter->isQueryReturn();
         $qb = $this->createQueryBuilder('entity');
 
         $qb
@@ -33,6 +34,6 @@ class AbstractRepository extends ServiceEntityRepository
             ->setParameter('status', $filter->getStatus())
         ;
 
-        return $qb;
+        return $queryReturn ? $qb->getQuery() : $qb;
     }
 }

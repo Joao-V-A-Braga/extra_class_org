@@ -21,7 +21,7 @@ class MetricRepository extends AbstractRepository
 
     public function findByFilter(AbstractFilter|MetricFilter $filter): Query
     {
-        $qb = parent::findByFilter($filter);
+        $qb = parent::findByFilter($filter->setQueryReturn(false));
 
         if ($filter->getStartClasses())
             $qb
