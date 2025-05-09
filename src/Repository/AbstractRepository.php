@@ -29,10 +29,12 @@ class AbstractRepository extends ServiceEntityRepository
         $queryReturn = $filter->isQueryReturn();
         $qb = $this->createQueryBuilder('entity');
 
-        $qb
-            ->andWhere('entity.status = :status')
-            ->setParameter('status', $filter->getStatus())
-        ;
+        if ($filter->getStatus()) {
+            $qb
+                ->andWhere('entity.status = :status')
+                ->setParameter('status', $filter->getStatus())
+            ;
+        }
 
         return $queryReturn ? $qb->getQuery() : $qb;
     }

@@ -5,7 +5,7 @@ namespace App\Filter;
 class AbstractFilter
 {
     protected string|null $q = null;
-    protected string $status = 'ACTIVE';
+    protected string|null $status = 'ACTIVE';
     protected int|null $perPage = null;
     protected int|null $page = null;
 
@@ -23,12 +23,12 @@ class AbstractFilter
         return $this;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(?string $status): AbstractFilter
     {
         $this->status = $status;
         return $this;
