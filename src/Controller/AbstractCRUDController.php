@@ -70,7 +70,7 @@ class AbstractCRUDController extends AbstractController
     {
         $form = $this->createForm($type, $entity, ['method' => 'PUT']);
         $form->submit([
-            ...$entity->toArray([SerializerGroups::DEFAULT]),
+            ...$entity->toArray([SerializerGroups::DEFAULT, SerializerGroups::DEPTHS]),
             ...json_decode($request->getContent(), true)
         ]);
 

@@ -2,34 +2,13 @@
 
 namespace App\Filter;
 
+use App\Filter\Trait\ClassesIntervalTrait;
+
 class MetricFilter extends AbstractFilter
 {
-    private ?int $startClasses = 0;
-    private ?int $endClasses = 0;
+    use ClassesIntervalTrait;
     private ?float $startMountHours = 0;
     private ?float $endMountHours = 0;
-
-    public function getStartClasses(): ?int
-    {
-        return $this->startClasses;
-    }
-
-    public function setStartClasses(?int $startClasses): MetricFilter
-    {
-        $this->startClasses = $startClasses;
-        return $this;
-    }
-
-    public function getEndClasses(): ?int
-    {
-        return $this->endClasses;
-    }
-
-    public function setEndClasses(?int $endClasses): MetricFilter
-    {
-        $this->endClasses = $endClasses;
-        return $this;
-    }
 
     public function getStartMountHours(): ?float
     {

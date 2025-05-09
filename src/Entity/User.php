@@ -2,32 +2,37 @@
 
 namespace App\Entity;
 
+use App\Constants\SerializerGroups;
 use App\Entity\Trait\IDTrait;
+use App\Entity\Trait\StatusTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\Serializer\Annotation as Serializer;
 
 #[ORM\Table(name: 'users')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use IdTrait;
+    use IdTrait, StatusTrait;
 
     #[ORM\Column(length: 180)]
+    #[Serializer\Groups([SerializerGroups::DEFAULT])]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
     #[ORM\Column]
+    #[Serializer\Groups([SerializerGroups::DETAILS])]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
     public function getEmail(): ?string

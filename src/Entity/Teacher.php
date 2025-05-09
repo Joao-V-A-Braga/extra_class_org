@@ -2,42 +2,52 @@
 
 namespace App\Entity;
 
+use App\Constants\SerializerGroups;
 use App\Entity\Trait\IDTrait;
 use App\Entity\Trait\StatusTrait;
+use App\Entity\Trait\ToArrayTrait;
 use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 #[ORM\Table(name: 'teachers')]
 #[ORM\Entity(repositoryClass: TeacherRepository::class)]
 class Teacher
 {
-    use IDTrait, StatusTrait;
+    use IDTrait, StatusTrait, ToArrayTrait;
 
-    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\OneToOne(targetEntity: User::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true)]
+    #[Serializer\Groups([SerializerGroups::DEFAULT])]
     private ?User $user;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Serializer\Groups([SerializerGroups::DEFAULT])]
     private string $firstName;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
+    #[Serializer\Groups([SerializerGroups::DEFAULT])]
     private ?string $lastName = null;
 
     #[ORM\Column(type: Types::INTEGER)]
+    #[Serializer\Groups([SerializerGroups::DEFAULT])]
     private int $classes = 0; //Per month - Real classes
 
     #[ORM\Column(type: Types::INTEGER)]
-    private int $pendingExtraClasses = 0; //In month
+    #[Serializer\Groups([SerializerGroups::DEFAULT])]
+    private ?int $pendingExtraClasses = 0; //In month
 
-    #[ORM\ManyToMany(targetEntity: SchoolSUbject::class, inversedBy: 'teachers')]
+    #[ORM\ManyToMany(targetEntity: SchoolSubject::class, inversedBy: 'teachers')]
+    #[Serializer\Groups([SerializerGroups::DEPTHS])]
     private Collection $schoolSubjects;
 
     public function __construct()
     {
         $this->schoolSubjects = new ArrayCollection();
+        $this->user = (new User())->setStatus('INACTIVE');
     }
 
     public function getUser(): ?User
@@ -86,12 +96,12 @@ class Teacher
 
     public function getPendingExtraClasses(): int
     {
-        return $this->pendingExtraClasses;
+        return $this->pendingExtraClasses??0;
     }
 
-    public function setPendingExtraClasses(int $pendingExtraClasses): Teacher
+    public function setPendingExtraClasses(?int $pendingExtraClasses): Teacher
     {
-        $this->pendingExtraClasses = $pendingExtraClasses;
+        $this->pendingExtraClasses = $pendingExtraClasses??0;
         return $this;
     }
 

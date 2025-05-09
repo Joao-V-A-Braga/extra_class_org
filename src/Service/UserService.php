@@ -32,8 +32,10 @@ readonly class UserService
     {
         $user = new User();
         $user
+            ->setStatus('ACTIVE')
             ->setEmail($this->parameter->get('FIRST_USER_EMAIL'))
-            ->setPassword($this->parameter->get('FIRST_USER_PASSWORD'));
+            ->setPassword($this->parameter->get('FIRST_USER_PASSWORD'))
+        ;
 
         $this->generateHashByUser($user);
     }

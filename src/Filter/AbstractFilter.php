@@ -4,13 +4,24 @@ namespace App\Filter;
 
 class AbstractFilter
 {
+    protected string|null $q = null;
     protected string $status = 'ACTIVE';
-
     protected int|null $perPage = null;
     protected int|null $page = null;
 
     // Aux
     protected bool|null $queryReturn = true;
+
+    public function getQ(): ?string
+    {
+        return $this->q;
+    }
+
+    public function setQ(?string $q): self
+    {
+        $this->q = $q;
+        return $this;
+    }
 
     public function getStatus(): string
     {
@@ -45,6 +56,7 @@ class AbstractFilter
         return $this;
     }
 
+    // Aux
     public function isQueryReturn(): bool
     {
         return $this->queryReturn;
